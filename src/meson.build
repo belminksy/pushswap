@@ -2,6 +2,8 @@
 src = [
     'PushChroma/Main.vala',
     'PushChroma/PushChroma.vala',
+    'Util/DoublyCircularLinkedList.vala',
+    'Util/Node.vala',
     'Widgets/Canvas.vala'
 ]
 
