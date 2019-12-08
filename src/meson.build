@@ -5,6 +5,7 @@ src = [
     'Pushswap/Interpreter.vala',
     'Pushswap/Parser.vala',
     'Pushswap/Token.vala',
+    'Util/Color.vala',
     'Util/DoublyCircularLinkedList.vala',
     'Util/Node.vala',
     'Widgets/Canvas.vala'
