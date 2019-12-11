@@ -36,9 +36,9 @@ namespace PushChroma.Pushswap {
         protected int index = 0;
 
 
-        public Interpreter(Parser parser, DoublyCircularLinkedList list) {
+        public Interpreter(OperationScanner scanner, DoublyCircularLinkedList list) {
 
-            tokens = parser.parse();
+            tokens = scanner.scan();
 
             list_a = list;
             list_b = new DoublyCircularLinkedList();

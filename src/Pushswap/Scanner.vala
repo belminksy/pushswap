@@ -24,35 +24,39 @@
 
 namespace PushChroma.Pushswap {
 
-    public enum TokenType {
-        /*
-        SA, // swap the first two elements of list_a
-        SB, // swap the first two elements of list_b
-        SC, // sa and sb at the same time
-        */
-        PA, // take the first element from list_b and move it to the first position on the list_a
-        PB, // take the first element from list_a and move it to the first position on the list_b
-        RA, // rotate list_a toward the beginning, the first element will become the last
-        RB, // rotate list_b toward the beginning, the first element will become the last
-        RR, // rr and rb at the same time
-        /*
-        RRA, // rotate list_a toward the end, the last element will become the first
-        RRB, // rotate list_b toward the end, the last element will become the first
-        RRR, // rra and rrb at the same time
-        */
-        NUMBER,
-        WHITESPACE
-    }
+    public abstract class Scanner {
 
-    public class Token {
-
-        public string content;
-        public TokenType type;
+        private File file;
 
 
-        public Token(string content, TokenType type) {
-            this.content = content;
-            this.type = type;
+        public Scanner(File file) {
+            this.file = file;
+        }
+
+        protected string read_file() {
+
+            if (!file.query_exists()) {
+                return "";
+            }
+
+            var input = new StringBuilder();
+
+            try {
+
+                var input_stream = new DataInputStream(file.read());
+
+                string line;
+                while ((line = input_stream.read_line(null)) != null) {
+                    input.append(line);
+                }
+
+
+            } catch (Error e) {
+                return "";
+            }
+
+            return input.str;
+
         }
 
     }

@@ -24,19 +24,17 @@
 
 namespace PushChroma.Pushswap {
 
-    public class Parser {
-
-        protected File file;
+    public class OperationScanner : Scanner {
 
         private int pos = 0;
 
 
-        public Parser(File file) {
-            this.file = file;
+        public OperationScanner(File file) {
+            base(file);
         }
 
 
-        public List<Token>? parse() {
+        public List<Token>? scan() {
 
             string input = read_file();
 
@@ -60,7 +58,6 @@ namespace PushChroma.Pushswap {
             return tokens;
         }
 
-
         private Token? get_next_token(string input) {
 
             int start = pos;
@@ -78,6 +75,9 @@ namespace PushChroma.Pushswap {
             while ('a' <= input[pos] && input[pos] <= 'z') {
                 pos++;
             }
+
+            if (start == pos)
+                return null;
 
             var content = input.substring(start, pos - start);
 
@@ -104,38 +104,12 @@ namespace PushChroma.Pushswap {
                     break;
 
                 default:
+                    stderr.printf("Error: unknown operation (%s), abort!\n", content);
                     return null;
 
             }
 
             return new Token(content, type);
-        }
-
-
-        private string read_file() {
-
-            if (!file.query_exists()) {
-                return "";
-            }
-
-            var input = new StringBuilder();
-
-            try {
-
-                var input_stream = new DataInputStream(file.read());
-
-                string line;
-                while ((line = input_stream.read_line(null)) != null) {
-                    input.append(line);
-                }
-
-
-            } catch (Error e) {
-                return "";
-            }
-
-            return input.str;
-
         }
 
     }
