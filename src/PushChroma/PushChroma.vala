@@ -114,8 +114,8 @@ namespace PushChroma {
             update_loop = new MainLoop();
             render_loop = new MainLoop();
 
-            var ticks = new TimeoutSource(500);
-            var frames = new TimeoutSource(1000);
+            var ticks = new TimeoutSource(17); // ~= 60tps
+            var frames = new TimeoutSource(17); // ~= 60fps
 
             ticks.set_callback(() => {
 
