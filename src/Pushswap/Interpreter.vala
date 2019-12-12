@@ -33,15 +33,21 @@ namespace PushChroma.Pushswap {
         public DoublyCircularLinkedList list_a;
         public DoublyCircularLinkedList list_b;
 
+        public OperationScanner op_scanner;
+        public NumberScanner nb_scanner;
+
         protected int index = 0;
 
 
-        public Interpreter(OperationScanner scanner, DoublyCircularLinkedList list) {
+        public Interpreter(OperationScanner op_scanner, NumberScanner nb_scanner) {
 
-            tokens = scanner.scan();
+            tokens = op_scanner.scan();
 
-            list_a = list;
+            list_a = nb_scanner.scan();
             list_b = new DoublyCircularLinkedList();
+
+            this.op_scanner = op_scanner;
+            this.nb_scanner = nb_scanner;
 
         }
 

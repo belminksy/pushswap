@@ -23,22 +23,42 @@
  */
 
 using GLib.Math;
+using PushChroma.Util;
+using PushChroma.Pushswap;
 
 namespace PushChroma.Widgets {
+
+    protected DoublyCircularLinkedList list_a = null;
+    protected DoublyCircularLinkedList list_b = null;
+
+    protected int size = 0;
+
 
     public class Canvas : Gtk.DrawingArea {
 
         public Canvas() {
-
             this.draw.connect(on_draw);
+        }
+
+
+        public void initialize(Interpreter interpreter) {
+
+            list_a = interpreter.list_a;
+            list_b = interpreter.list_b;
+
+            size = interpreter.nb_scanner.size;
 
         }
+
 
         public void refresh() {
             queue_draw_area(0, 0, get_allocated_width(), get_allocated_height());
         }
 
         private bool on_draw(Gtk.Widget widget, Cairo.Context ctx) {
+
+            if (list_a == null || list_b == null)
+                return true;
 
 
             ctx.set_line_width (30 / 4);
@@ -56,30 +76,25 @@ namespace PushChroma.Widgets {
                 radius = (height / 2) - 20;
 
 
-            double max = 100;
-            double[] bounds = new double[] {
-                (max / 6) * 1,
-                (max / 6) * 2,
-                (max / 6) * 3,
-                (max / 6) * 4,
-                (max / 6) * 5,
-                (max / 6) * 6,
-            };
+            double ratio = size / (2 * Math.PI);
 
-            double ratio = max / (2 * Math.PI);
+            PushChroma.Util.Node head = list_a.get_head();
+            PushChroma.Util.Node node = head.next;
+            int index = 0;
 
-            for (double i = 0; i < max; i++) {
+            while (node != head) {
 
-                double r = get_red(i, bounds);
-                double g = get_green(i, bounds);
-                double b = get_blue(i, bounds);
+                double r = node.color.red;
+                double g = node.color.green;
+                double b = node.color.blue;
 
-                ctx.set_source_rgb ( r, g, b );
+                ctx.set_source_rgb(r, g, b);
 
-                double begin_x = Math.cos(i / ratio) * radius;
-                double begin_y = Math.sin(i / ratio) * radius;
-                double end_x = Math.cos((i + 1) / ratio) * radius;
-                double end_y = Math.sin((i + 1) / ratio) * radius;
+
+                double begin_x = Math.cos(index / ratio) * radius;
+                double begin_y = Math.sin(index / ratio) * radius;
+                double end_x = Math.cos((index + 1) / ratio) * radius;
+                double end_y = Math.sin((index + 1) / ratio) * radius;
 
                 ctx.new_path();
                 ctx.move_to(x, y);
@@ -88,61 +103,40 @@ namespace PushChroma.Widgets {
                 ctx.close_path ();
                 ctx.fill();
 
+                index++;
+                node = node.next;
+            }
+
+
+            head = list_b.get_head();
+            node = head.next;
+
+            while (node != head) {
+
+                double r = node.color.red;
+                double g = node.color.green;
+                double b = node.color.blue;
+
+                ctx.set_source_rgb(r, g, b);
+
+
+                double begin_x = Math.cos(index / ratio) * radius;
+                double begin_y = Math.sin(index / ratio) * radius;
+                double end_x = Math.cos((index + 1) / ratio) * radius;
+                double end_y = Math.sin((index + 1) / ratio) * radius;
+
+                ctx.new_path();
+                ctx.move_to(x, y);
+                ctx.line_to(x + begin_x, y + begin_y);
+                ctx.line_to(x + end_x, y + end_y);
+                ctx.close_path ();
+                ctx.fill();
+
+                index++;
+                node = node.next;
             }
 
             return true;
-        }
-
-
-        double get_red(double pos, double[] bounds) {
-
-            if (bounds[4] <= pos || pos <= bounds[0]) {
-                return 1;
-            }
-
-            if (bounds[0] < pos && pos < bounds[1]) {
-                return (bounds[1] - pos) / bounds[0];
-            }
-
-            if (bounds[3] < pos && pos < bounds[4]) {
-                return 1 + (pos - bounds[4]) / bounds[0];
-            }
-
-            return 0;
-        }
-
-        double get_green(double pos, double[] bounds) {
-
-            if (bounds[0] <= pos && pos <= bounds[2]) {
-                return 1;
-            }
-
-            if (bounds[2] < pos && pos < bounds[3]) {
-                return (bounds[3] - pos) / bounds[0];
-            }
-
-            if (0 < pos && pos < bounds[0]) {
-                return 1 + (pos - bounds[0]) / bounds[0];
-            }
-
-            return 0;
-        }
-
-        double get_blue(double pos, double[] bounds) {
-
-            if (bounds[2] <= pos && pos <= bounds[4]) {
-                return 1;
-            }
-
-            if (bounds[4] < pos && pos < bounds[5]) {
-                return (bounds[5] - pos) / bounds[0];
-            }
-
-            if (bounds[1] < pos && pos < bounds[2]) {
-                return 1 + (pos - bounds[2]) / bounds[0];
-            }
-
-            return 0;
         }
 
     }

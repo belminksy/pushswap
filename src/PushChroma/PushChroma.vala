@@ -23,6 +23,7 @@
  */
 
 using PushChroma.Widgets;
+using PushChroma.Pushswap;
 
 namespace PushChroma {
 
@@ -33,6 +34,8 @@ namespace PushChroma {
 
         protected MainLoop update_loop = null;
         protected MainLoop render_loop = null;
+
+        protected Interpreter interpreter = null;
 
         protected bool running = false;
         protected bool playing = false;
@@ -66,6 +69,14 @@ namespace PushChroma {
 
             quit_action.activate.connect(stop);
             window.destroy.connect(stop);
+
+
+            var op_scanner = new OperationScanner(File.new_for_path("actions"));
+            var nb_scanner = new NumberScanner(File.new_for_path("numbers"));
+
+            interpreter = new Interpreter(op_scanner, nb_scanner);
+
+            canvas.initialize(interpreter);
 
         }
 
@@ -156,7 +167,13 @@ namespace PushChroma {
 
         public void update() {
 
-            //stdout.printf("update\n");
+            if (!playing)
+                return;
+
+            if (interpreter == null || interpreter.isFinished())
+                return;
+
+            interpreter.next();
 
         }
 
