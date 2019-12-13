@@ -52,6 +52,21 @@ namespace PushChroma.Util {
         }
 
 
+        public void swap() {
+
+            var tmp1 = head.next.data;
+            var tmp2 = head.next.color;
+
+            /* Sets data of the first element */
+            head.next.data = head.next.next.data;
+            head.next.color = head.next.next.color;
+
+            /* Sets data of the second element */
+            head.next.next.data = tmp1;
+            head.next.next.color = tmp2;
+
+        }
+
         public void rotate() {
 
             var tmp = head.next;

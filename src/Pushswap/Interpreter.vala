@@ -75,6 +75,19 @@ namespace PushChroma.Pushswap {
 
             switch (token.type) {
 
+                case TokenType.SA:
+                    list_a.swap();
+                    break;
+
+                case TokenType.SB:
+                    list_b.swap();
+                    break;
+
+                case TokenType.SC:
+                    list_a.swap();
+                    list_b.swap();
+                    break;
+
                 case TokenType.PA:
                     list_a.take_head(list_b);
                     break;

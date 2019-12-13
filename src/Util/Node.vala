@@ -26,22 +26,16 @@ namespace PushChroma.Util {
 
     public class Node {
 
-        private int _data;
+        public int data;
+        public Color color = null;
 
         public Node next = null;
         public Node prev = null;
 
-        public Color color = null;
-
 
         public Node(int data) {
-            _data = data;
+            this.data = data;
             color = Color.from_decimal(data);
-        }
-
-
-        public int data {
-            get { return _data; }
         }
 
     }

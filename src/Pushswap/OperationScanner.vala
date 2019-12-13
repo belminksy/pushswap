@@ -83,6 +83,18 @@ namespace PushChroma.Pushswap {
 
             switch (content) {
 
+                case "sa":
+                    type = TokenType.SA;
+                    break;
+
+                case "sb":
+                    type = TokenType.SB;
+                    break;
+
+                case "sc":
+                    type = TokenType.SC;
+                    break;
+
                 case "pa":
                     type = TokenType.PA;
                     break;

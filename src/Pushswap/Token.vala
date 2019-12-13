@@ -25,11 +25,9 @@
 namespace PushChroma.Pushswap {
 
     public enum TokenType {
-        /*
         SA, // swap the first two elements of list_a
         SB, // swap the first two elements of list_b
         SC, // sa and sb at the same time
-        */
         PA, // take the first element from list_b and move it to the first position on the list_a
         PB, // take the first element from list_a and move it to the first position on the list_b
         RA, // rotate list_a toward the beginning, the first element will become the last
