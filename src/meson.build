@@ -1,5 +1,6 @@
 
 src = [
+    'PushChroma/Config.vala',
     'PushChroma/Main.vala',
     'PushChroma/PushChroma.vala',
     'Pushswap/Interpreter.vala',

@@ -45,8 +45,8 @@ namespace PushChroma {
             window = new Gtk.ApplicationWindow(this);
             add_window(window);
 
-            window.title = "PushChroma v0.1";
-            window.set_default_size(800, 800);
+            window.title = Config.WINDOW_TITLE;
+            window.set_default_size(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
 
             canvas = new PushChroma.Widgets.Canvas();
             window.add(canvas);
@@ -125,8 +125,8 @@ namespace PushChroma {
             update_loop = new MainLoop();
             render_loop = new MainLoop();
 
-            var ticks = new TimeoutSource(17); // ~= 60tps
-            var frames = new TimeoutSource(17); // ~= 60fps
+            var ticks = new TimeoutSource(1000 / Config.TPS);
+            var frames = new TimeoutSource(1000 / Config.FPS);
 
             ticks.set_callback(() => {
 
