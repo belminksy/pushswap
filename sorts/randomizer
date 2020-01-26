@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+
+import sys
+import random
+
+numbers = []
+
+size = int(sys.argv[1])
+max = 100000
+
+ratio = max / size
+
+for i in range(size):
+    numbers.append(int(ratio * i));
+
+
+random.shuffle(numbers)
+
+print(
+    ' '.join(str(elem) for elem in numbers)
+)
