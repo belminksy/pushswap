@@ -68,7 +68,7 @@ A good way to observe that, is by compare the wheel evolution of two different s
 
 ![Radix LSB sort vs Cocktail sort](data/evolution.gif?raw=true)
 
-> Visual comparaison between the Radix LSB sort (left) & the Cockatil sort (right).
+> Visual comparaison between the Radix LSB sort (left) & the Cocktail sort (right).
 
 The only measurable value in this example is the speed of the algorithms. This can be compared with their time complexity.
 
